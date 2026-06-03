@@ -32,6 +32,7 @@ router.post('/login', async (req, res) => {
     if (!ok) return res.render('pages/login', { title: 'Login', erro: 'Credenciais inválidas' })
 
     req.session.usuario = { id: usuario.id, nome: usuario.nome, email: usuario.email, papel: usuario.papel }
+    if (usuario.papel === 'cliente') return res.redirect('/cliente')
     res.redirect('/painel')
   } catch (e) {
     res.render('pages/login', { title: 'Login', erro: 'Erro ao fazer login' })
@@ -176,3 +177,25 @@ router.post('/painel/visitas', autenticarWeb, async (req, res) => {
 })
 
 module.exports = router
+
+// ── Registro ──────────────────────────────────────────────────────────────────
+router.get('/registrar', (req, res) => {
+  if (req.session && req.session.usuario) return res.redirect('/painel')
+  res.render('pages/registrar', { title: 'Criar Conta', erro: null })
+})
+
+router.post('/registrar', async (req, res) => {
+  const { nome, email, senha } = req.body
+  try {
+    const authService = require('../services/auth.service')
+    await authService.registrar({ nome, email, senha, papel: 'cliente' })
+    // Login automático após registro
+    const bcrypt = require('bcryptjs')
+    const authRepo = require('../repositories/auth.repository')
+    const usuario = authRepo.buscarPorEmail(email)
+    req.session.usuario = { id: usuario.id, nome: usuario.nome, email: usuario.email, papel: usuario.papel }
+    res.redirect('/cliente')
+  } catch (e) {
+    res.render('pages/registrar', { title: 'Criar Conta', erro: e.mensagem || 'Erro ao criar conta' })
+  }
+})

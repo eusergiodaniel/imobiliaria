@@ -1,0 +1,74 @@
+<%- include('../partials/head', { title: 'Meus Contratos' }) %>
+<%- include('../partials/sidebar_cliente') %>
+
+<div class="lg:ml-60 min-h-screen pt-14 lg:pt-0 bg-slate-50">
+  <header class="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 sticky top-14 lg:top-0 z-20">
+    <h1 class="text-base lg:text-lg font-semibold text-slate-800">Meus Contratos</h1>
+    <p class="text-xs text-slate-500"><%= contratos.length %> contratos registrados</p>
+  </header>
+
+  <main class="p-4 lg:p-8">
+    <% if (contratos.length === 0) { %>
+      <div class="text-center py-16 text-slate-400">
+        <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <p class="text-sm">Nenhum contrato registrado</p>
+      </div>
+    <% } %>
+
+    <div class="flex flex-col gap-4">
+      <% contratos.forEach(c => { %>
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- Header do contrato -->
+        <div class="flex items-center justify-between px-5 py-3 border-b border-slate-100 bg-slate-50">
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2.5 py-1 rounded-full font-semibold
+              <%= c.tipo === 'compra' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700' %>">
+              <%= c.tipo === 'compra' ? '🏠 Compra' : '🔑 Locação' %>
+            </span>
+            <span class="text-xs px-2.5 py-1 rounded-full font-semibold
+              <%= c.status === 'ativo' ? 'bg-green-100 text-green-700' : c.status === 'encerrado' ? 'bg-slate-100 text-slate-600' : 'bg-red-100 text-red-600' %>">
+              <%= c.status %>
+            </span>
+          </div>
+          <span class="text-xs text-slate-400">Contrato #<%= c.id %></span>
+        </div>
+
+        <div class="p-5">
+          <!-- Imóvel -->
+          <div class="mb-4">
+            <div class="text-xs text-slate-400 uppercase font-semibold mb-1">Imóvel</div>
+            <div class="text-sm font-semibold text-slate-800"><%= c.imovel ? c.imovel.titulo : '—' %></div>
+            <div class="text-xs text-slate-400"><%= c.imovel ? c.imovel.bairro + ', ' + c.imovel.cidade : '' %></div>
+          </div>
+
+          <!-- Detalhes financeiros -->
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="bg-slate-50 rounded-lg p-3">
+              <div class="text-xs text-slate-400 mb-0.5">Valor total</div>
+              <div class="text-sm font-bold text-brand-600">R$ <%= c.valorTotal.toLocaleString('pt-BR') %></div>
+            </div>
+            <div class="bg-slate-50 rounded-lg p-3">
+              <div class="text-xs text-slate-400 mb-0.5">Início</div>
+              <div class="text-sm font-semibold text-slate-700"><%= new Date(c.dataInicio).toLocaleDateString('pt-BR') %></div>
+            </div>
+            <% if (c.dataFim) { %>
+            <div class="bg-slate-50 rounded-lg p-3 col-span-2">
+              <div class="text-xs text-slate-400 mb-0.5">Término previsto</div>
+              <div class="text-sm font-semibold text-slate-700"><%= new Date(c.dataFim).toLocaleDateString('pt-BR') %></div>
+            </div>
+            <% } %>
+          </div>
+
+          <% if (c.observacao) { %>
+          <div class="border-t border-slate-100 pt-3">
+            <div class="text-xs text-slate-400 mb-1">Observações</div>
+            <p class="text-xs text-slate-600"><%= c.observacao %></p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </main>
+</div>
+</body></html>

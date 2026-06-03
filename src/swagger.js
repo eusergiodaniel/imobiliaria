@@ -8,7 +8,10 @@ const options = {
       version: '1.0.0',
       description: 'Sistema de Gestão Imobiliária — Node.js + Express',
     },
-    servers: [{ url: 'http://localhost:3000', description: 'Servidor local' }],
+    servers: [
+      { url: 'https://imobiliaria.up.railway.app', description: 'Servidor online (Railway)' },
+      { url: 'http://localhost:3000', description: 'Servidor local' },
+    ],
     components: {
       securitySchemes: {
         bearerAuth: {

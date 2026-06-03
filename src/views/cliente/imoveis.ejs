@@ -1,0 +1,76 @@
+<%- include('../partials/head', { title: 'Imóveis' }) %>
+<%- include('../partials/sidebar_cliente') %>
+
+<div class="lg:ml-60 min-h-screen pt-14 lg:pt-0 bg-slate-50">
+  <header class="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 sticky top-14 lg:top-0 z-20">
+    <h1 class="text-base lg:text-lg font-semibold text-slate-800">Imóveis Disponíveis</h1>
+    <p class="text-xs text-slate-500"><%= imoveis.length %> imóveis encontrados</p>
+  </header>
+
+  <main class="p-4 lg:p-8">
+    <!-- Filtros -->
+    <form method="GET" action="/cliente/imoveis" class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 mb-5 flex gap-2 flex-wrap items-end">
+      <div class="flex-1 min-w-[100px]">
+        <label class="block text-xs font-medium text-slate-600 mb-1">Tipo</label>
+        <select name="tipo" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <option value="">Todos</option>
+          <option value="apartamento" <%= filtros.tipo==='apartamento'?'selected':'' %>>Apartamento</option>
+          <option value="casa"        <%= filtros.tipo==='casa'?'selected':'' %>>Casa</option>
+          <option value="comercial"   <%= filtros.tipo==='comercial'?'selected':'' %>>Comercial</option>
+          <option value="terreno"     <%= filtros.tipo==='terreno'?'selected':'' %>>Terreno</option>
+        </select>
+      </div>
+      <div class="flex-1 min-w-[100px]">
+        <label class="block text-xs font-medium text-slate-600 mb-1">Bairro</label>
+        <input type="text" name="bairro" value="<%= filtros.bairro||'' %>" placeholder="Ex: Umarizal"
+          class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500"/>
+      </div>
+      <div class="flex-1 min-w-[100px]">
+        <label class="block text-xs font-medium text-slate-600 mb-1">Preço máximo</label>
+        <input type="number" name="precoMax" value="<%= filtros.precoMax||'' %>" placeholder="Ex: 500000"
+          class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500"/>
+      </div>
+      <div class="flex gap-2">
+        <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white text-sm px-4 py-2 rounded-lg transition">Buscar</button>
+        <a href="/cliente/imoveis" class="text-sm text-slate-500 hover:text-slate-700 py-2">Limpar</a>
+      </div>
+    </form>
+
+    <% if (imoveis.length === 0) { %>
+      <div class="text-center py-16 text-slate-400">
+        <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        <p class="text-sm">Nenhum imóvel encontrado</p>
+      </div>
+    <% } %>
+
+    <% const imgMap = { apartamento: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80', casa: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80', comercial: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80', terreno: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80' } %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5">
+      <% imoveis.forEach(i => { %>
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition group">
+        <div class="h-44 relative overflow-hidden">
+          <img src="<%= i.fotoUrl || imgMap[i.tipo] %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <span class="absolute top-2 right-2 text-xs px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm
+            <%= i.status === 'disponivel' ? 'bg-green-100/90 text-green-700' : 'bg-slate-100/90 text-slate-600' %>">
+            <%= i.status %>
+          </span>
+          <span class="absolute bottom-2 left-2 text-xs text-white/80 font-medium bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded"><%= i.area %> m²</span>
+        </div>
+        <div class="p-4">
+          <div class="text-xs text-slate-400 font-semibold uppercase tracking-wide mb-1"><%= i.tipo %></div>
+          <h3 class="font-semibold text-slate-800 text-sm leading-snug mb-1 truncate"><%= i.titulo %></h3>
+          <p class="text-xs text-slate-400 mb-3 truncate">📍 <%= i.bairro %>, <%= i.cidade %></p>
+          <% if (i.descricao) { %>
+          <p class="text-xs text-slate-500 mb-3 line-clamp-2"><%= i.descricao %></p>
+          <% } %>
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+            <span class="text-brand-600 font-bold text-sm">R$ <%= i.preco.toLocaleString('pt-BR') %></span>
+            <a href="/cliente/imoveis/<%= i.id %>" class="text-xs bg-brand-600 hover:bg-brand-700 text-white px-3 py-1.5 rounded-lg transition font-medium">Ver detalhes</a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </main>
+</div>
+</body></html>

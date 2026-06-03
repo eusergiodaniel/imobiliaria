@@ -26,15 +26,15 @@
         </div>
       <% } %>
 
-      <form method="POST" action="/login" class="space-y-5">
+      <form method="POST" action="/login" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1.5">E-mail</label>
-          <input type="email" name="email" required placeholder="seu@email.com"
+          <input type="email" name="email" id="input-email" required placeholder="seu@email.com"
             class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"/>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1.5">Senha</label>
-          <input type="password" name="senha" required placeholder="••••••••"
+          <input type="password" name="senha" id="input-senha" required placeholder="••••••••"
             class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"/>
         </div>
         <button type="submit"
@@ -43,18 +43,52 @@
         </button>
       </form>
 
-      <div class="mt-6 pt-5 border-t border-slate-100">
-        <p class="text-xs text-slate-400 font-medium mb-2">Contas de teste:</p>
-        <div class="space-y-1.5 text-xs text-slate-500">
-          <div class="flex justify-between bg-slate-50 rounded px-3 py-1.5">
-            <span>admin@imobiliaria.com</span><span class="font-mono text-slate-400">123456</span>
-          </div>
-          <div class="flex justify-between bg-slate-50 rounded px-3 py-1.5">
-            <span>agente@imobiliaria.com</span><span class="font-mono text-slate-400">123456</span>
-          </div>
+      <!-- Criar conta -->
+      <div class="mt-4">
+        <a href="/registrar"
+          class="w-full flex items-center justify-center gap-2 border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium py-2.5 rounded-lg transition text-sm">
+          ✉️ Criar conta com e-mail
+        </a>
+      </div>
+
+      <!-- Contas de teste -->
+      <div class="mt-5 pt-5 border-t border-slate-100">
+        <p class="text-xs text-slate-400 font-medium mb-2">Contas de teste <span class="text-slate-300">(clique para preencher)</span>:</p>
+        <div class="space-y-1.5 text-xs">
+          <button type="button" onclick="preencher('admin@imobiliaria.com','123456')"
+            class="w-full flex justify-between items-center bg-slate-50 hover:bg-red-50 hover:border-red-200 border border-transparent rounded-lg px-3 py-2 transition text-left">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold text-xs">A</span>
+              <span class="text-slate-600">admin@imobiliaria.com</span>
+            </div>
+            <span class="font-mono text-slate-400">123456</span>
+          </button>
+          <button type="button" onclick="preencher('agente@imobiliaria.com','123456')"
+            class="w-full flex justify-between items-center bg-slate-50 hover:bg-blue-50 hover:border-blue-200 border border-transparent rounded-lg px-3 py-2 transition text-left">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-xs">G</span>
+              <span class="text-slate-600">agente@imobiliaria.com</span>
+            </div>
+            <span class="font-mono text-slate-400">123456</span>
+          </button>
+          <button type="button" onclick="preencher('cliente@email.com','123456')"
+            class="w-full flex justify-between items-center bg-slate-50 hover:bg-green-50 hover:border-green-200 border border-transparent rounded-lg px-3 py-2 transition text-left">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 bg-green-100 text-green-600 rounded-full flex items-center justify-center font-bold text-xs">C</span>
+              <span class="text-slate-600">cliente@email.com</span>
+            </div>
+            <span class="font-mono text-slate-400">123456</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+function preencher(email, senha) {
+  document.getElementById('input-email').value = email
+  document.getElementById('input-senha').value = senha
+}
+</script>
 </body></html>

@@ -12,6 +12,7 @@ const clienteRoutes  = require('./routes/cliente.routes')
 const contratoRoutes = require('./routes/contrato.routes')
 const visitaRoutes   = require('./routes/visita.routes')
 const webRoutes      = require('./routes/web.routes')
+const clienteWebRoutes = require('./routes/cliente_web.routes')
 
 const app  = express()
 const PORT = process.env.PORT || 3000
@@ -40,6 +41,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 // ── Rotas Web (Frontend) ──────────────────────────────────────────────────────
 app.use('/', webRoutes)
+app.use('/', clienteWebRoutes)
 
 // ── Rotas API (JSON) ──────────────────────────────────────────────────────────
 app.use('/api/auth',      authRoutes)

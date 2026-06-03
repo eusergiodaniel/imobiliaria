@@ -1,0 +1,193 @@
+<%- include('../partials/head', { title: 'Falar com Agente' }) %>
+<%- include('../partials/sidebar_cliente') %>
+
+<div class="lg:ml-60 min-h-screen pt-14 lg:pt-0 bg-slate-50 flex flex-col">
+  <header class="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 sticky top-14 lg:top-0 z-20">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-brand-100 rounded-full flex items-center justify-center">
+        <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      </div>
+      <div>
+        <h1 class="text-sm font-semibold text-slate-800">Falar com um Agente</h1>
+        <div class="flex items-center gap-1.5">
+          <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span class="text-xs text-slate-500">Online agora</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mensagens -->
+  <div id="chat-box" class="flex-1 overflow-y-auto px-4 lg:px-8 py-5 space-y-4" style="min-height: calc(100vh - 200px)">
+
+    <!-- Mensagem de boas-vindas -->
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 bg-brand-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">A</div>
+      <div class="max-w-sm">
+        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
+          <p class="text-sm text-slate-700">Olá, <%= usuario.nome.split(' ')[0] %>! 👋 Sou seu agente imobiliário. Como posso te ajudar hoje?</p>
+        </div>
+        <div class="text-xs text-slate-400 mt-1 ml-1">Agente • agora</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 bg-brand-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">A</div>
+      <div class="max-w-sm">
+        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
+          <p class="text-sm text-slate-700">Posso te ajudar com:</p>
+          <div class="mt-2 space-y-1.5">
+            <button onclick="enviarRapido('Quero me cadastrar como cliente')" class="w-full text-left text-xs bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-xl px-3 py-2 transition">📋 Quero me cadastrar como cliente</button>
+            <button onclick="enviarRapido('Tenho interesse em um imóvel')" class="w-full text-left text-xs bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-xl px-3 py-2 transition">🏠 Tenho interesse em um imóvel</button>
+            <button onclick="enviarRapido('Quero agendar uma visita')" class="w-full text-left text-xs bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-xl px-3 py-2 transition">📅 Quero agendar uma visita</button>
+            <button onclick="enviarRapido('Tenho dúvidas sobre contratos')" class="w-full text-left text-xs bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-xl px-3 py-2 transition">📄 Tenho dúvidas sobre contratos</button>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 mt-1 ml-1">Agente • agora</div>
+      </div>
+    </div>
+
+    <div id="mensagens-dinamicas"></div>
+    <div id="typing" class="hidden flex items-start gap-3">
+      <div class="w-8 h-8 bg-brand-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">A</div>
+      <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
+        <div class="flex gap-1 items-center h-4">
+          <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay:0ms"></div>
+          <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay:150ms"></div>
+          <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay:300ms"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="bg-white border-t border-slate-200 px-4 lg:px-8 py-4 sticky bottom-0">
+    <form id="chat-form" class="flex gap-3 items-end">
+      <textarea id="msg-input" rows="1" placeholder="Digite sua mensagem..."
+        class="flex-1 text-sm border border-slate-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none max-h-28"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviar()}"></textarea>
+      <button type="button" onclick="enviar()"
+        class="w-10 h-10 bg-brand-600 hover:bg-brand-700 text-white rounded-full flex items-center justify-center transition flex-shrink-0 shadow-md">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+const nomeUsuario = '<%= usuario.nome.split(" ")[0] %>'
+const emailUsuario = '<%= usuario.email %>'
+const chatBox = document.getElementById('chat-box')
+const typing  = document.getElementById('typing')
+const dinamico = document.getElementById('mensagens-dinamicas')
+
+// Respostas automáticas do agente
+const respostas = {
+  cadastro: {
+    palavras: ['cadastrar', 'cadastro', 'registrar', 'registro', 'cliente'],
+    resposta: `Ótimo! Para te cadastrar como cliente, precisamos de algumas informações. Por favor, me informe:\n\n• **Nome completo**\n• **CPF** (somente números)\n• **Telefone para contato**\n\nVou repassar para nossa equipe e em breve um agente entrará em contato! 😊`
+  },
+  imovel: {
+    palavras: ['imóvel', 'imovel', 'interesse', 'comprar', 'alugar', 'locação', 'locacao'],
+    resposta: `Que ótimo que você tem interesse! 🏠\n\nVocê pode ver todos os imóveis disponíveis na seção **Imóveis** do menu. Tem algum bairro ou tipo de imóvel específico em mente?\n\n• Apartamento\n• Casa\n• Comercial\n• Terreno`
+  },
+  visita: {
+    palavras: ['visita', 'visitar', 'agendar', 'conhecer', 'ver'],
+    resposta: `Para agendar uma visita, acesse a página do imóvel desejado e clique em **"Solicitar Visita"** — você escolhe a data e horário! 📅\n\nSe preferir, me diga qual imóvel você tem interesse e eu mesmo agendar por você.`
+  },
+  contrato: {
+    palavras: ['contrato', 'contratos', 'dúvida', 'duvida', 'documento', 'assinar'],
+    resposta: `Sobre contratos, posso te ajudar! 📄\n\nVocê pode acompanhar seus contratos ativos na seção **"Meus Contratos"**.\n\nSe tiver dúvidas específicas sobre cláusulas, valores ou prazos, me conte mais detalhes e encaminharei para o agente responsável.`
+  },
+  preco: {
+    palavras: ['preço', 'preco', 'valor', 'quanto', 'custo'],
+    resposta: `Os valores variam de acordo com o imóvel! 💰\n\nVocê pode usar os filtros na seção **Imóveis** para buscar por faixa de preço. Se quiser uma simulação de financiamento, me diz qual imóvel te interessou!`
+  },
+  ola: {
+    palavras: ['oi', 'olá', 'ola', 'bom dia', 'boa tarde', 'boa noite', 'hey', 'hello'],
+    resposta: `Olá! 😊 Como posso te ajudar hoje?`
+  },
+  obrigado: {
+    palavras: ['obrigado', 'obrigada', 'valeu', 'thanks', 'grato'],
+    resposta: `Por nada! Fico feliz em ajudar. Se precisar de mais alguma coisa, é só chamar! 🙂`
+  }
+}
+
+function addMensagem(texto, tipo, hora) {
+  const agora = hora || new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'})
+  const div = document.createElement('div')
+  
+  if (tipo === 'usuario') {
+    div.innerHTML = `
+      <div class="flex items-end justify-end gap-2 mb-4">
+        <div class="max-w-sm">
+          <div class="bg-brand-600 text-white rounded-2xl rounded-br-none px-4 py-3 shadow-sm">
+            <p class="text-sm whitespace-pre-line">${texto}</p>
+          </div>
+          <div class="text-xs text-slate-400 mt-1 text-right mr-1">${agora}</div>
+        </div>
+        <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-600 text-xs font-bold flex-shrink-0">
+          ${nomeUsuario.charAt(0).toUpperCase()}
+        </div>
+      </div>`
+  } else {
+    // Formatar negrito
+    const fmt = texto.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    div.innerHTML = `
+      <div class="flex items-start gap-3 mb-4">
+        <div class="w-8 h-8 bg-brand-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">A</div>
+        <div class="max-w-sm">
+          <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
+            <p class="text-sm text-slate-700 whitespace-pre-line">${fmt}</p>
+          </div>
+          <div class="text-xs text-slate-400 mt-1 ml-1">Agente • ${agora}</div>
+        </div>
+      </div>`
+  }
+  
+  dinamico.appendChild(div)
+  chatBox.scrollTop = chatBox.scrollHeight
+}
+
+function buscarResposta(texto) {
+  const lower = texto.toLowerCase()
+  for (const [key, val] of Object.entries(respostas)) {
+    if (val.palavras.some(p => lower.includes(p))) {
+      return val.resposta
+    }
+  }
+  return `Entendido! Vou repassar sua mensagem para um de nossos agentes. Em breve entraremos em contato pelo e-mail **${emailUsuario}**. 📧\n\nHorário de atendimento: Seg-Sex, 8h às 18h.`
+}
+
+function enviarRapido(texto) {
+  document.getElementById('msg-input').value = texto
+  enviar()
+}
+
+function enviar() {
+  const input = document.getElementById('msg-input')
+  const texto = input.value.trim()
+  if (!texto) return
+  
+  addMensagem(texto, 'usuario')
+  input.value = ''
+  input.style.height = 'auto'
+
+  // Mostrar "digitando"
+  typing.classList.remove('hidden')
+  chatBox.scrollTop = chatBox.scrollHeight
+
+  setTimeout(() => {
+    typing.classList.add('hidden')
+    const resp = buscarResposta(texto)
+    addMensagem(resp, 'agente')
+  }, 1200 + Math.random() * 800)
+}
+
+// Auto-resize textarea
+document.getElementById('msg-input').addEventListener('input', function() {
+  this.style.height = 'auto'
+  this.style.height = Math.min(this.scrollHeight, 112) + 'px'
+})
+</script>
+</body></html>
