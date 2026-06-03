@@ -1,0 +1,114 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Administrador",
+      "email": "admin@imobiliaria.com",
+      "senha": "$2b$10$yP8CtsKOP/pqC/lISLSAm.F7jfy9akPPYyn.cpQgzEHV50GPp9VcS",
+      "papel": "admin",
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    },
+    {
+      "id": 2,
+      "nome": "Carlos Agente",
+      "email": "agente@imobiliaria.com",
+      "senha": "$2b$10$yP8CtsKOP/pqC/lISLSAm.F7jfy9akPPYyn.cpQgzEHV50GPp9VcS",
+      "papel": "agente",
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    },
+    {
+      "id": 3,
+      "nome": "Maria Cliente",
+      "email": "cliente@email.com",
+      "senha": "$2b$10$yP8CtsKOP/pqC/lISLSAm.F7jfy9akPPYyn.cpQgzEHV50GPp9VcS",
+      "papel": "cliente",
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    }
+  ],
+  "imoveis": [
+    {
+      "id": 1,
+      "titulo": "Apartamento 3 quartos - Batista Campos",
+      "descricao": "Apartamento amplo com varanda, 2 vagas",
+      "tipo": "apartamento",
+      "status": "disponivel",
+      "preco": 450000,
+      "area": 110,
+      "endereco": "Av. Gov. Jose Malcher, 1500",
+      "bairro": "Batista Campos",
+      "cidade": "Belem",
+      "criadoEm": "2026-06-02T13:53:57.801Z",
+      "atualizadoEm": "2026-06-02T13:53:57.801Z"
+    },
+    {
+      "id": 2,
+      "titulo": "Casa duplex - Umarizal",
+      "descricao": "Casa com piscina, 4 quartos sendo 2 suites",
+      "tipo": "casa",
+      "status": "vendido",
+      "preco": 850000,
+      "area": 280,
+      "endereco": "Rua Municipio de Breves, 300",
+      "bairro": "Umarizal",
+      "cidade": "Belem",
+      "criadoEm": "2026-06-02T13:53:57.801Z",
+      "atualizadoEm": "2026-06-02T13:53:57.801Z"
+    },
+    {
+      "id": 3,
+      "titulo": "Sala comercial - Marco",
+      "tipo": "comercial",
+      "status": "disponivel",
+      "preco": 3500,
+      "area": 45,
+      "endereco": "Trav. Padre Eutiquio, 900",
+      "bairro": "Marco",
+      "cidade": "Belem",
+      "criadoEm": "2026-06-02T13:53:57.801Z",
+      "atualizadoEm": "2026-06-02T13:53:57.801Z"
+    }
+  ],
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "Joao Silva",
+      "email": "joao@email.com",
+      "telefone": "91999990001",
+      "cpf": "12345678901",
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    },
+    {
+      "id": 2,
+      "nome": "Ana Souza",
+      "email": "ana@email.com",
+      "telefone": "91999990002",
+      "cpf": "98765432100",
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    }
+  ],
+  "contratos": [
+    {
+      "id": 1,
+      "tipo": "compra",
+      "status": "ativo",
+      "valorTotal": 850000,
+      "dataInicio": "2025-02-15T00:00:00.000Z",
+      "imovelId": 2,
+      "clienteId": 1,
+      "usuarioId": 1,
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    }
+  ],
+  "visitas": [
+    {
+      "id": 1,
+      "dataHora": "2025-02-10T14:00:00.000Z",
+      "status": "agendada",
+      "observacao": "Cliente tem interesse em financiar",
+      "imovelId": 1,
+      "clienteId": 1,
+      "usuarioId": 2,
+      "criadoEm": "2026-06-02T13:53:57.801Z"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+<%- include('../partials/head', { title: 'Dashboard' }) %>
+<%- include('../partials/sidebar') %>
+
+<div class="lg:ml-60 min-h-screen pt-14 lg:pt-0">
+  <header class="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 flex items-center justify-between sticky top-14 lg:top-0 z-20">
+    <div>
+      <h1 class="text-base lg:text-lg font-semibold text-slate-800">Dashboard</h1>
+      <p class="text-xs text-slate-500">Visão geral do sistema</p>
+    </div>
+    <div class="flex items-center gap-2 text-xs text-slate-500">
+      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+      <span class="hidden sm:inline">Servidor ativo</span>
+    </div>
+  </header>
+
+  <main class="p-4 lg:p-8">
+    <!-- Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5 mb-6 lg:mb-8">
+      <div class="bg-white rounded-xl p-4 lg:p-5 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-2 lg:mb-3">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Imóveis</span>
+          <div class="w-7 h-7 lg:w-8 lg:h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl lg:text-3xl font-bold text-slate-800"><%= stats.totalImoveis %></div>
+        <div class="text-xs text-green-600 mt-1 font-medium"><%= stats.imoveisDisponiveis %> disponíveis</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 lg:p-5 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-2 lg:mb-3">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Clientes</span>
+          <div class="w-7 h-7 lg:w-8 lg:h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl lg:text-3xl font-bold text-slate-800"><%= stats.totalClientes %></div>
+        <div class="text-xs text-slate-400 mt-1">cadastrados</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 lg:p-5 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-2 lg:mb-3">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Contratos</span>
+          <div class="w-7 h-7 lg:w-8 lg:h-8 bg-brand-50 rounded-lg flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl lg:text-3xl font-bold text-slate-800"><%= stats.totalContratos %></div>
+        <div class="text-xs text-brand-600 mt-1 font-medium"><%= stats.contratosAtivos %> ativos</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 lg:p-5 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-2 lg:mb-3">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Visitas</span>
+          <div class="w-7 h-7 lg:w-8 lg:h-8 bg-green-50 rounded-lg flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <div class="text-2xl lg:text-3xl font-bold text-slate-800"><%= stats.totalVisitas %></div>
+        <div class="text-xs text-yellow-600 mt-1 font-medium"><%= stats.visitasAgendadas %> agendadas</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between px-4 lg:px-6 py-4 border-b border-slate-100">
+          <h2 class="font-semibold text-slate-800 text-sm">Imóveis Recentes</h2>
+          <a href="/painel/imoveis" class="text-xs text-brand-600 hover:text-brand-700 font-medium">Ver todos →</a>
+        </div>
+        <div class="divide-y divide-slate-50">
+          <% if (imoveis.length === 0) { %>
+            <div class="px-6 py-8 text-center text-slate-400 text-sm">Nenhum imóvel cadastrado</div>
+          <% } %>
+          <% imoveis.slice(0,5).forEach(i => { %>
+          <div class="px-4 lg:px-6 py-3 flex items-center justify-between hover:bg-slate-50 transition">
+            <div class="min-w-0 flex-1 mr-2">
+              <div class="text-sm font-medium text-slate-700 truncate"><%= i.titulo %></div>
+              <div class="text-xs text-slate-400 truncate"><%= i.bairro %>, <%= i.cidade %></div>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full font-medium flex-shrink-0
+              <%= i.status === 'disponivel' ? 'bg-green-100 text-green-700' :
+                  i.status === 'reservado'  ? 'bg-yellow-100 text-yellow-700' :
+                  i.status === 'vendido'    ? 'bg-blue-100 text-blue-700' :
+                                              'bg-slate-100 text-slate-600' %>">
+              <%= i.status %>
+            </span>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between px-4 lg:px-6 py-4 border-b border-slate-100">
+          <h2 class="font-semibold text-slate-800 text-sm">Próximas Visitas</h2>
+          <a href="/painel/visitas" class="text-xs text-brand-600 hover:text-brand-700 font-medium">Ver todas →</a>
+        </div>
+        <div class="divide-y divide-slate-50">
+          <% if (visitas.length === 0) { %>
+            <div class="px-6 py-8 text-center text-slate-400 text-sm">Nenhuma visita agendada</div>
+          <% } %>
+          <% visitas.slice(0,5).forEach(v => { %>
+          <div class="px-4 lg:px-6 py-3 flex items-center justify-between hover:bg-slate-50 transition">
+            <div class="min-w-0 flex-1 mr-2">
+              <div class="text-sm font-medium text-slate-700 truncate"><%= v.cliente ? v.cliente.nome : 'Cliente' %></div>
+              <div class="text-xs text-slate-400 truncate"><%= v.imovel ? v.imovel.titulo : 'Imóvel' %></div>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full font-medium flex-shrink-0
+              <%= v.status === 'agendada'  ? 'bg-yellow-100 text-yellow-700' :
+                  v.status === 'realizada' ? 'bg-green-100 text-green-700' :
+                                             'bg-red-100 text-red-600' %>">
+              <%= v.status %>
+            </span>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body></html>

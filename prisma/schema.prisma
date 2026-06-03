@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  nome      String
+  email     String    @unique
+  senha     String
+  papel     String    @default("cliente") // admin | agente | cliente
+  criadoEm DateTime  @default(now())
+
+  contratos Contrato[]
+  visitas   Visita[]
+}
+
+model Imovel {
+  id         Int       @id @default(autoincrement())
+  titulo     String
+  descricao  String?
+  tipo       String    // apartamento | casa | comercial | terreno
+  status     String    @default("disponivel") // disponivel | reservado | vendido | alugado
+  preco      Float
+  area       Float
+  endereco   String
+  bairro     String
+  cidade     String
+  fotoUrl    String?
+  criadoEm  DateTime  @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  contratos Contrato[]
+  visitas   Visita[]
+}
+
+model Cliente {
+  id        Int       @id @default(autoincrement())
+  nome      String
+  email     String    @unique
+  telefone  String?
+  cpf       String    @unique
+  criadoEm DateTime  @default(now())
+
+  contratos Contrato[]
+  visitas   Visita[]
+}
+
+model Contrato {
+  id         Int      @id @default(autoincrement())
+  tipo       String   // compra | locacao
+  status     String   @default("ativo") // ativo | encerrado | cancelado
+  valorTotal Float
+  dataInicio DateTime
+  dataFim    DateTime?
+  observacao String?
+  criadoEm  DateTime  @default(now())
+
+  imovelId  Int
+  imovel    Imovel   @relation(fields: [imovelId], references: [id])
+
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model Visita {
+  id         Int      @id @default(autoincrement())
+  dataHora   DateTime
+  status     String   @default("agendada") // agendada | realizada | cancelada
+  observacao String?
+  criadoEm  DateTime  @default(now())
+
+  imovelId  Int
+  imovel    Imovel   @relation(fields: [imovelId], references: [id])
+
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+}
